@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CakesTaste — Halal Baked Goods</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --bg-card: #1a1a1a;
+    --bg-card-hover: #222222;
+    --gold: #d4a843;
+    --gold-deep: #b8922e;
+    --gold-soft: rgba(212, 168, 67, 0.15);
+    --purple: #6b2fa0;
+    --purple-soft: rgba(107, 47, 160, 0.2);
+    --text: #f5f0e8;
+    --text-muted: #8a8579;
+    --text-dim: #5a564f;
+    --border: #2a2a2a;
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .serif { font-family: 'Playfair Display', Georgia, serif; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
+
+  /* ========== NAV ========== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(13, 13, 13, 0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 72px;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .logo-icon {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  .logo-icon img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px; font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+  }
+  .logo-text span { color: var(--purple); }
+  .nav-links {
+    display: flex; gap: 32px; font-size: 14px;
+    font-weight: 500; letter-spacing: 0.3px;
+  }
+  .nav-links a {
+    color: var(--text-muted);
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a:hover, .nav-links a.active {
+    color: var(--gold);
+  }
+  .nav-links a.active::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 2px; background: var(--gold);
+    border-radius: 2px;
+  }
+  .nav-right {
+    display: flex; align-items: center; gap: 18px;
+  }
+  .nav-cart {
+    position: relative;
+    width: 40px; height: 40px;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .nav-cart:hover { border-color: var(--gold); color: var(--gold); }
+  .nav-cart .badge {
+    position: absolute; top: -4px; right: -4px;
+    width: 18px; height: 18px;
+    background: var(--gold);
+    color: var(--bg);
+    font-size: 11px; font-weight: 700;
+    border-radius: 50%;
+    display: grid; place-items: center;
+  }
+
+  /* ========== HERO ========== */
+  .hero {
+    padding: 140px 0 100px;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 80% 50%, rgba(212, 168, 67, 0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 20% 80%, rgba(107, 47, 160, 0.04) 0%, transparent 50%);
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 60px; align-items: center;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--gold);
+    font-size: 14px; font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .hero-eyebrow .star { font-size: 10px; }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 5vw, 68px);
+    line-height: 1.1;
+    font-weight: 700;
+    margin-bottom: 22px;
+    color: var(--text);
+  }
+  .hero h1 em {
+    color: var(--gold);
+    font-style: italic;
+  }
+  .hero-sub {
+    font-size: 16px; color: var(--text-muted);
+    max-width: 480px; margin-bottom: 36px;
+    line-height: 1.7;
+  }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn {
+    padding: 15px 30px; border-radius: 8px; font-weight: 600;
+    font-size: 14px; transition: all 0.25s; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 10px; border: none;
+    font-family: 'Inter', sans-serif; letter-spacing: 0.3px;
+  }
+  .btn-gold {
+    background: var(--gold); color: var(--bg);
+    box-shadow: 0 8px 24px -8px rgba(212, 168, 67, 0.4);
+  }
+  .btn-gold:hover { background: var(--gold-deep); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: var(--text);
+    border: 1.5px solid var(--border);
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-image {
+    position: relative;
+    display: flex; justify-content: center;
+  }
+  .hero-img-wrap {
+    width: 460px; height: 460px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 40px 80px -20px rgba(0,0,0,0.6);
+  }
+  .hero-img-wrap img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .hero-img-wrap::after {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(212, 168, 67, 0.2);
+  }
+  /* floating accent crumbs */
+  .crumb {
+    position: absolute;
+    width: 20px; height: 20px;
+    background: var(--gold);
+    border-radius: 2px;
+    opacity: 0.4;
+    transform: rotate(45deg);
+  }
+  .crumb-1 { top: 40px; left: 30px; width: 12px; height: 12px; opacity: 0.3; }
+  .crumb-2 { top: 80px; right: 20px; width: 8px; height: 8px; opacity: 0.2; }
+  .crumb-3 { bottom: 60px; left: 60px; width: 16px; height: 16px; opacity: 0.25; }
+  .crumb-star {
+    position: absolute;
+    color: var(--gold);
+    font-size: 22px;
+    opacity: 0.3;
+  }
+  .crumb-star-1 { top: 20px; right: 60px; }
+  .crumb-star-2 { bottom: 100px; left: 20px; font-size: 16px; opacity: 0.2; }
+
+  /* halal badge */
+  .halal-badge {
+    position: absolute; bottom: 30px; right: 30px;
+    background: var(--gold);
+    color: var(--bg);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    box-shadow: 0 6px 18px -6px rgba(212, 168, 67, 0.5);
+  }
+
+  /* ========== SECTION SHARED ========== */
+  section { padding: 100px 0; position: relative; }
+  .section-head { text-align: center; margin-bottom: 60px; }
+  .section-head .eyebrow {
+    color: var(--gold);
+    font-size: 13px; font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .section-head h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .section-head p {
+    color: var(--text-muted); font-size: 16px;
+    max-width: 520px; margin: 0 auto;
+  }
+
+  /* ========== FEATURED ========== */
+  .featured {
+    background: linear-gradient(180deg, var(--bg) 0%, #111 50%, var(--bg) 100%);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .featured-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .featured-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: all 0.35s;
+  }
+  .featured-card:hover {
+    border-color: rgba(212, 168, 67, 0.3);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px -20px rgba(0,0,0,0.5);
+  }
+  .featured-img {
+    height: 240px;
+    overflow: hidden;
+    background: #151515;
+  }
+  .featured-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+  }
+  .featured-card:hover .featured-img img { transform: scale(1.05); }
+  .featured-body {
+    padding: 28px 24px;
+  }
+  .featured-body h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .featured-body p {
+    color: var(--text-muted); font-size: 14px;
+    margin-bottom: 20px; line-height: 1.6;
+  }
+  .btn-sm {
+    padding: 11px 22px; font-size: 13px;
+    border-radius: 6px;
+  }
+
+  /* ========== TESTIMONIALS ========== */
+  .testimonials {
+    text-align: center;
+  }
+  .testimonial-card {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .testimonial-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .testimonial-quote::before {
+    content: '\201C';
+    font-size: 80px;
+    color: var(--gold);
+    opacity: 0.3;
+    position: absolute;
+    top: -40px; left: -20px;
+    font-family: 'Playfair Display', serif;
+    line-height: 1;
+  }
+  .testimonial-author {
+    color: var(--gold);
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+  .testimonial-role {
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+  .testimonial-dots {
+    display: flex; justify-content: center; gap: 8px;
+    margin-top: 32px;
+  }
+  .testimonial-dots span {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .testimonial-dots span.active { background: var(--gold); }
+
+  /* ========== BESTSELLERS ========== */
+  .bestsellers {
+    background: linear-gradient(180deg, var(--bg) 0%, #111 50%, var(--bg) 100%);
+    border-top: 1px solid var(--border);
+  }
+  .bestseller-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .product-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: all 0.35s;
+  }
+  .product-card:hover {
+    border-color: rgba(212, 168, 67, 0.25);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px -16px rgba(0,0,0,0.4);
+  }
+  .product-img {
+    height: 200px;
+    overflow: hidden;
+    background: #151515;
+    position: relative;
+  }
+  .product-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+  }
+  .product-card:hover .product-img img { transform: scale(1.05); }
+  .product-tag {
+    position: absolute; top: 12px; left: 12px;
+    background: var(--gold);
+    color: var(--bg);
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .product-body {
+    padding: 20px;
+  }
+  .product-body h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px; font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .product-body .subtitle {
+    color: var(--text-dim);
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+  .product-meta {
+    display: flex; justify-content: space-between;
+    align-items: center;
+  }
+  .product-price {
+    font-size: 18px; font-weight: 700;
+    color: var(--gold);
+  }
+  .product-price .old {
+    color: var(--text-dim);
+    font-size: 14px; font-weight: 400;
+    text-decoration: line-through;
+    margin-left: 6px;
+  }
+  .product-stars {
+    display: flex; gap: 2px;
+    color: var(--gold);
+    font-size: 13px;
+  }
+  .product-cart-btn {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: var(--gold-soft);
+    color: var(--gold);
+    border: none;
+    display: grid; place-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .product-cart-btn:hover {
+    background: var(--gold);
+    color: var(--bg);
+  }
+
+  /* ========== FOOTER ========== */
+  footer {
+    padding: 70px 0 30px;
+    border-top: 1px solid var(--border);
+    background: #151515;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 50px;
+  }
+  .footer-brand .logo-text {
+    font-size: 28px;
+    margin-bottom: 14px;
+  }
+  .footer-brand p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 20px;
+    max-width: 260px;
+    line-height: 1.7;
+  }
+  .footer-social {
+    display: flex; gap: 10px;
+  }
+  .footer-social a {
+    width: 38px; height: 38px;
+    border-radius: 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    display: grid; place-items: center;
+    color: var(--text-muted);
+    transition: all 0.2s;
+    font-size: 14px;
+  }
+  .footer-social a:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--bg);
+  }
+  .footer-col h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px; font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+  .footer-col ul {
+    list-style: none;
+  }
+  .footer-col li {
+    margin-bottom: 10px;
+  }
+  .footer-col a {
+    color: var(--text-muted);
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--gold); }
+  .footer-bottom {
+    display: flex; justify-content: space-between;
+    align-items: center;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+  .footer-bottom a { color: var(--text-dim); }
+  .footer-bottom a:hover { color: var(--gold); }
+  .payment-icons {
+    display: flex; gap: 8px;
+  }
+  .payment-icons span {
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 11px;
+    color: var(--text-dim);
+    font-weight: 600;
+  }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 1024px) {
+    .featured-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+    .bestseller-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero-grid { grid-template-columns: 1fr; text-align: center; }
+    .hero-sub { margin: 0 auto 36px; }
+    .hero-actions { justify-content: center; }
+    .hero-image { margin-top: 40px; }
+    .hero-img-wrap { width: 320px; height: 320px; }
+    .bestseller-grid { grid-template-columns: 1fr; max-width: 340px; margin: 0 auto; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; gap: 14px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container nav-inner">
+    <div class="logo">
+      <div class="logo-icon">
+        <img src="cakestaste.png" alt="CakesTaste logo">
+      </div>
+      <div class="logo-text">Cakes<span>Taste</span></div>
+    </div>
+    <div class="nav-links">
+      <a href="#" class="active">Home</a>
+      <a href="#featured">Recipes</a>
+      <a href="#bestsellers">Custom Pastries</a>
+      <a href="#bestsellers">Artisan Breads</a>
+      <a href="#testimonials">Meals</a>
+      <a href="#footer">Catering</a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-cart">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="badge">0</span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="hero-eyebrow">
+        <span class="star">★</span> Halal Baked Goods <span class="star">★</span>
+      </div>
+      <h1>Experience Our <em>Luxury</em> Halal Bakery</h1>
+      <p class="hero-sub">
+        Indulge in our handcrafted halal pastries and artisan breads, made with the finest ingredients and baked with tradition. Every bite is a celebration.
+      </p>
+      <div class="hero-actions">
+        <a href="#bestsellers" class="btn btn-gold">Shop All Products</a>
+        <a href="#featured" class="btn btn-outline">Explore Our Menu</a>
+      </div>
+    </div>
+
+    <div class="hero-image">
+      <div class="crumb crumb-1"></div>
+      <div class="crumb crumb-2"></div>
+      <div class="crumb crumb-3"></div>
+      <span class="crumb-star crumb-star-1">★</span>
+      <span class="crumb-star crumb-star-2">★</span>
+      <div class="hero-img-wrap">
+        <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&h=800&fit=crop" alt="Artisan bread on dark surface">
+      </div>
+      <div class="halal-badge">100% Halal</div>
+    </div>
+  </div>
+</header>
+
+<!-- FEATURED FAVORITES -->
+<section id="featured" class="featured">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">✦ Curated Selection ✦</div>
+      <h2>Featured Favorites</h2>
+      <p>Our most loved halal baked goods, handpicked for you.</p>
+    </div>
+
+    <div class="featured-grid">
+      <div class="featured-card">
+        <div class="featured-img">
+          <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=600&h=400&fit=crop" alt="Pastry selection">
+        </div>
+        <div class="featured-body">
+          <h3>Flaky Pastries</h3>
+          <p>Buttery, golden layers of handmade puff pastry filled with cream and seasonal fruits.</p>
+          <a href="#" class="btn btn-gold btn-sm">Add to Cart</a>
+        </div>
+      </div>
+      <div class="featured-card">
+        <div class="featured-img">
+          <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=600&h=400&fit=crop" alt="Artisan bread basket">
+        </div>
+        <div class="featured-body">
+          <h3>Hand-Baked Artisan Bread</h3>
+          <p>Stone-oven baked sourdough and rustic loaves, crafted with organic flour and patience.</p>
+          <a href="#" class="btn btn-gold btn-sm">Add to Cart</a>
+        </div>
+      </div>
+      <div class="featured-card">
+        <div class="featured-img">
+          <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&h=400&fit=crop" alt="Custom celebration cake">
+        </div>
+        <div class="featured-body">
+          <h3>Custom Celebration Cakes</h3>
+          <p>Stunning multi-tier cakes designed for your special occasions, fully customisable.</p>
+          <a href="#" class="btn btn-gold btn-sm">Add to Cart</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="testimonials">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">✦ What People Say ✦</div>
+      <h2>Customer Reviews</h2>
+      <p>Words from those who've tasted the difference.</p>
+    </div>
+
+    <div class="testimonial-card">
+      <div class="testimonial-quote">
+        The attention to detail is extraordinary. Knowing every ingredient is halal-certified gives us peace of mind, and the taste is simply unmatched. CakesTaste has become our family's go-to for every celebration.
+      </div>
+      <div class="testimonial-author">Amira Hassan</div>
+      <div class="testimonial-role">Loyal Customer</div>
+    </div>
+
+    <div class="testimonial-dots">
+      <span class="active"></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</section>
+
+<!-- BESTSELLERS -->
+<section id="bestsellers" class="bestsellers">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">✦ Most Popular ✦</div>
+      <h2>Our Bestsellers</h2>
+    </div>
+
+    <div class="bestseller-grid">
+      <div class="product-card">
+        <div class="product-img">
+          <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=500&h=400&fit=crop" alt="Classic croissant">
+          <span class="product-tag">Bestseller</span>
+        </div>
+        <div class="product-body">
+          <h4>Classic Butter Croissant</h4>
+          <div class="subtitle">Flaky, golden, hand-rolled</div>
+          <div class="product-stars">★★★★★</div>
+          <div class="product-meta" style="margin-top: 12px;">
+            <div class="product-price">$4.50</div>
+            <button class="product-cart-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">
+          <img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=500&h=400&fit=crop" alt="Cupcakes">
+        </div>
+        <div class="product-body">
+          <h4>Gourmet Cupcakes</h4>
+          <div class="subtitle">Assorted flavours, box of 6</div>
+          <div class="product-stars">★★★★★</div>
+          <div class="product-meta" style="margin-top: 12px;">
+            <div class="product-price">$18.00</div>
+            <button class="product-cart-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">
+          <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=500&h=400&fit=crop" alt="Cinnamon bun">
+        </div>
+        <div class="product-body">
+          <h4>Cinnamon Swirl</h4>
+          <div class="subtitle">Warm spice, cream cheese glaze</div>
+          <div class="product-stars">★★★★<span style="color: var(--text-dim);">★</span></div>
+          <div class="product-meta" style="margin-top: 12px;">
+            <div class="product-price">$5.50</div>
+            <button class="product-cart-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">
+          <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&h=400&fit=crop" alt="Sourdough loaf">
+          <span class="product-tag">New</span>
+        </div>
+        <div class="product-body">
+          <h4>Artisan Sourdough Loaf</h4>
+          <div class="subtitle">48-hour fermented, organic</div>
+          <div class="product-stars">★★★★★</div>
+          <div class="product-meta" style="margin-top: 12px;">
+            <div class="product-price">$8.00 <span class="old">$10.00</span></div>
+            <button class="product-cart-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-text">Cakes<span>Taste</span></div>
+        <p>Premium halal baked goods crafted with the finest ingredients and delivered to your door.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r="1" fill="currentColor"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="#" aria-label="Twitter">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+          </a>
+          <a href="#" aria-label="TikTok">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Menu Sections</h4>
+        <ul>
+          <li><a href="#">Custom Pastries</a></li>
+          <li><a href="#">Sourdough Breads</a></li>
+          <li><a href="#">Celebration Cakes</a></li>
+          <li><a href="#">Gift Boxes</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Customer Care</h4>
+        <ul>
+          <li><a href="#">Ordering Info</a></li>
+          <li><a href="#">Delivery Areas</a></li>
+          <li><a href="#">Allergen Guide</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Policies</h4>
+        <ul>
+          <li><a href="#">Refund Policy</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Halal Certification</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <ul>
+          <li><a href="#">hello@cakestaste.com</a></li>
+          <li><a href="#">(555) 234-5678</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Catering Enquiries</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; 2026 CakesTaste. All rights reserved.</span>
+      <div class="payment-icons">
+        <span>VISA</span>
+        <span>MC</span>
+        <span>AMEX</span>
+        <span>APPLE PAY</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

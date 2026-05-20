@@ -48,8 +48,8 @@
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     backdrop-filter: blur(14px);
-    background: rgba(253, 246, 236, 0.85);
-    border-bottom: 1px solid rgba(196, 165, 224, 0.25);
+    background: rgba(196, 165, 224, 0.75);
+    border-bottom: 1px solid rgba(196, 165, 224, 0.3);
   }
   .nav-inner {
     display: flex; align-items: center; justify-content: space-between;
@@ -58,15 +58,16 @@
   .logo {
     display: flex; align-items: center; gap: 12px;
     font-family: 'Dancing Script', cursive;
-    font-size: 32px; color: var(--lavender-deep);
+    font-size: 32px; color: white;
     line-height: 1;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.1);
   }
   .logo-mark {
     width: 44px; height: 44px;
-    background: linear-gradient(135deg, var(--lavender) 0%, var(--lavender-deep) 100%);
-    color: var(--cream); display: grid; place-items: center;
+    background: white;
+    color: var(--lavender-deep); display: grid; place-items: center;
     border-radius: 50%; font-size: 20px;
-    box-shadow: 0 6px 16px -4px rgba(139, 101, 184, 0.5);
+    box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.15);
     position: relative;
   }
   .logo-mark::after {
@@ -74,16 +75,16 @@
     color: var(--lavender); font-size: 14px;
   }
   .nav-links { display: flex; gap: 36px; font-size: 15px; font-weight: 600; }
-  .nav-links a { transition: color 0.2s; color: var(--ink); }
-  .nav-links a:hover { color: var(--lavender-deep); }
+  .nav-links a { transition: color 0.2s; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .nav-links a:hover { color: var(--cream); }
   .nav-cta {
-    background: var(--lavender); color: white;
+    background: white; color: var(--lavender-deep);
     padding: 12px 24px; border-radius: 999px;
     font-weight: 700; font-size: 14px;
     transition: all 0.25s;
-    box-shadow: 0 6px 18px -4px rgba(178, 144, 216, 0.6);
+    box-shadow: 0 4px 14px -4px rgba(0, 0, 0, 0.12);
   }
-  .nav-cta:hover { background: var(--lavender-deep); transform: translateY(-2px); }
+  .nav-cta:hover { background: var(--cream); transform: translateY(-2px); }
 
   /* ========== HERO ========== */
   .hero {
@@ -97,11 +98,11 @@
   }
   .hero h1 {
     font-family: 'Dancing Script', cursive;
-    font-size: clamp(64px, 10vw, 132px);
-    line-height: 0.92;
+    font-size: clamp(56px, 8vw, 110px);
+    line-height: 1.05;
     color: var(--lavender-deep);
     margin-bottom: 20px;
-    letter-spacing: 1px;
+    letter-spacing: -1px;
   }
   .hero h1 .swirl {
     color: var(--lavender);
